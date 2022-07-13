@@ -1,0 +1,13 @@
+## example 
+apache.github.io/superset:
+  charts:
+    superset:
+    - 0.1.0
+    - 0.1.1
+prometheus-community.github.io/helm-charts:
+  charts:
+    prometheus:
+    - ~11.1.0
+    prometheus-node-exporter:
+    - 2.0.0
+    - 2.0.1
