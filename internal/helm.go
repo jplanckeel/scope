@@ -10,14 +10,15 @@ import (
 )
 
 type Client struct {
-	binary string
-	dryrun bool
-	ctx    context.Context
+	ctx      context.Context
+	binary   string
+	repoDest string
+	dryrun   bool
 }
 
-func NewClient(binaryHelm string, dryrun bool) *Client {
+func NewClient(binaryHelm string,repoDest string, dryrun bool) *Client {
 	ctx := context.Background()
-	return &Client{binaryHelm, dryrun, ctx}
+	return &Client{ctx, binaryHelm, repoDest, dryrun}
 }
 
 func (c Client) repoAdd(repoName string, repo string) error {
@@ -59,21 +60,20 @@ func (c Client) pullChart(chartName string, version string) error {
 	return nil
 }
 
-func (c Client) pushChart(regsitry string, chartName string, version string, repoDest string) error {
+func (c Client) pushChart(oci string, chartName string, version string) error {
 	if c.dryrun {
-		fmt.Printf("dryrun: push chart: %s:%s to:%s\n", chartName,version, repoDest)
+		fmt.Printf("dryrun: push chart: %s:%s to:%s\n", chartName, version, c.repoDest)
 	} else {
 		chartPackage := chartName + "-" + version + ".tgz"
-		oci := "oci://" + repoDest + "/helm-mirrors/" + regsitry
 		err := run.Cmd(c.ctx, c.binary, "push", chartPackage, oci).Run().Stream(os.Stdout)
 		if err != nil {
-		
+
 			return err
 		}
-		os.Remove(chartPackage)
-		if err != nil {
-		
-			return err
+		err2 := os.Remove(chartPackage)
+		if err2 != nil {
+
+			return err2
 		}
 	}
 	return nil
