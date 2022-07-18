@@ -1,56 +1,60 @@
 package internal
 
 import (
-	"context"
 	"fmt"
-	"os"
 	"strings"
-
-	"github.com/sourcegraph/run"
 )
+
+var h *Client
 
 func Sync(binaryHelm string, configPath string, repoDest string, dryrun bool) {
 
-	h := binaryHelm
-	ctx := context.Background()
-
+	h = NewClient(binaryHelm, repoDest, dryrun)
 	cfg, err := newConfig(configPath)
 	if err != nil {
 		fmt.Printf("error: %s\n", err)
 	}
+
 	for registry, charts := range cfg {
 		repo := "https://" + registry
 		repoName := strings.Split(registry, "/")
-		if dryrun {
-			fmt.Printf("dryrun: to add repo name :%s repo:%s\n",repoName[0], repo)
-		}else {
-			err := run.Cmd(ctx, h, "repo", "add", repoName[0], repo).Run().Stream(os.Stdout)
-			if err != nil {
-				fmt.Printf("error: %s\n", err.Error())
-			}
-		}
-		
+		h.repoAdd(repoName[0], repo)
 
 		for chart, versions := range charts.Charts {
 			for _, version := range versions {
 				chartName := repoName[0] + "/" + chart
-				registryDest := "oci://" + repoDest + "/helm-mirrors/" + registry + "/" + chart
-				if dryrun {
-					fmt.Printf("dryrun: to pull chart %s:%s\n",chartName, version)
-					fmt.Printf("dryrun: to push chart %s.tgz on %s\n",chartName, registryDest)
-				}else {
-					err := run.Cmd(ctx, h, "pull", chartName, "--version", version).Run().Stream(os.Stdout)
-					if err != nil {
-						fmt.Printf("error: %s\n", err.Error())
-					} else {
-						chartNameDest := chartName + ".tgz"
-						err2 := run.Cmd(ctx, h, "push", chartNameDest, registryDest).Run().Stream(os.Stdout)
-						if err2 != nil {
-							fmt.Printf("error: %s\n", err.Error())
-						}
-					}
-				}
+
+				pullAndPush(registry, chart, chartName, version)
+
 			}
 		}
+	}
+}
+
+func pullAndPush(registry string, chart string, chartName string, version string) {
+
+	listSource, err := h.searchChart(chartName, version)
+	if err != nil {
+		fmt.Printf("error - can search chart in repo err:%s", err)
+	}
+
+	chartSource, err := chartList(listSource.Bytes())
+	if err != nil {
+		fmt.Printf("error - %s", err)
+	}
+
+	for _, c := range chartSource {
+
+		oci := "oci://" + h.repoDest + "/helm-mirrors/" + registry
+
+		h.pullChart(c.Name, c.Version)
+		if err != nil {
+			fmt.Printf("error - %s", err)
+		}
+		h.pushChart(oci, chart, c.Version)
+		if err != nil {
+			fmt.Printf("error - %s", err)
+		}
+
 	}
 }

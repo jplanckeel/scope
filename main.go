@@ -21,7 +21,6 @@ var rootCmd = &cobra.Command{
 }
 
 func main() {
-	
 	err := rootCmd.Execute()
 	if err != nil {
 		panic(err)
