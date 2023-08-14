@@ -18,7 +18,10 @@ func Sync(binaryHelm string, configPath string, repoDest string, registryType st
 	for registry, charts := range cfg {
 		repo := "https://" + registry
 		repoName := strings.Split(registry, "/")
-		h.repoAdd(repoName[0], repo)
+		err := h.repoAdd(repoName[0], repo)
+		if err != nil {
+			fmt.Printf("error: can add repo %v\n", err)
+		}
 
 		for chart, versions := range charts.Charts {
 			for _, version := range versions {
@@ -35,25 +38,25 @@ func pullAndPush(registry string, chart string, chartName string, version string
 
 	listSource, err := h.searchChart(chartName, version)
 	if err != nil {
-		fmt.Printf("error - can search chart in repo err:%s", err)
+		fmt.Printf("error: can search chart in repo %v\n", err)
 	}
 
 	chartSource, err := chartList(listSource.Bytes())
 	if err != nil {
-		fmt.Printf("error - %s", err)
+		fmt.Printf("error: %v\n", err)
 	}
 
 	for _, c := range chartSource {
 
 		r := registryD(registry, h.repoDest, h.registryType)
 
-		h.pullChart(c.Name, c.Version)
+		err := h.pullChart(c.Name, c.Version)
 		if err != nil {
-			fmt.Printf("error - %s", err)
+			fmt.Printf("error: %v\n", err)
 		}
-		h.pushChart(r, chart, c.Version)
+		err = h.pushChart(r, chart, c.Version)
 		if err != nil {
-			fmt.Printf("error - %s", err)
+			fmt.Printf("error: %v\n", err)
 		}
 
 	}
