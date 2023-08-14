@@ -37,9 +37,8 @@ type chartSearch struct {
 	Version     string `yaml:"version"`
 }
 
-
 func chartList(input []byte) ([]chartSearch, error) {
-	var y  []chartSearch
+	var y []chartSearch
 	err := yaml.Unmarshal(input, &y)
 	if err != nil {
 		return y, fmt.Errorf("failed to unmarshal %q: %w", input, err)

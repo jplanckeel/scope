@@ -7,9 +7,9 @@ import (
 
 var h *Client
 
-func Sync(binaryHelm string, configPath string, repoDest string, dryrun bool) {
+func Sync(binaryHelm string, configPath string, repoDest string, registryType string, user string, password string, dryrun bool) {
 
-	h = NewClient(binaryHelm, repoDest, dryrun)
+	h = NewClient(binaryHelm, repoDest, registryType, user, password, dryrun)
 	cfg, err := newConfig(configPath)
 	if err != nil {
 		fmt.Printf("error: %s\n", err)
@@ -45,16 +45,25 @@ func pullAndPush(registry string, chart string, chartName string, version string
 
 	for _, c := range chartSource {
 
-		oci := "oci://" + h.repoDest + "/helm-mirrors/" + registry
+		r := registryD(registry, h.repoDest, h.registryType)
 
 		h.pullChart(c.Name, c.Version)
 		if err != nil {
 			fmt.Printf("error - %s", err)
 		}
-		h.pushChart(oci, chart, c.Version)
+		h.pushChart(r, chart, c.Version)
 		if err != nil {
 			fmt.Printf("error - %s", err)
 		}
 
 	}
+}
+
+func registryD(r string, repod string, t string) string {
+
+	if t == "oci" {
+		oci := "oci://" + h.repoDest + "/helm-mirrors/" + r
+		return oci
+	}
+	return repod
 }
