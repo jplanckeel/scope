@@ -10,15 +10,18 @@ import (
 )
 
 type Client struct {
-	ctx      context.Context
-	binary   string
-	repoDest string
-	dryrun   bool
+	ctx          context.Context
+	binary       string
+	repoDest     string
+	registryType string
+	user         string
+	password     string
+	dryrun       bool
 }
 
-func NewClient(binaryHelm string,repoDest string, dryrun bool) *Client {
+func NewClient(binaryHelm string, repoDest string, registryType string, user string, password string, dryrun bool) *Client {
 	ctx := context.Background()
-	return &Client{ctx, binaryHelm, repoDest, dryrun}
+	return &Client{ctx, binaryHelm, repoDest, registryType, user, password, dryrun}
 }
 
 func (c Client) repoAdd(repoName string, repo string) error {
@@ -60,20 +63,30 @@ func (c Client) pullChart(chartName string, version string) error {
 	return nil
 }
 
-func (c Client) pushChart(oci string, chartName string, version string) error {
+func (c Client) pushChart(registry string, chartName string, version string) error {
 	if c.dryrun {
 		fmt.Printf("dryrun: push chart: %s:%s to:%s\n", chartName, version, c.repoDest)
 	} else {
 		chartPackage := chartName + "-" + version + ".tgz"
-		err := run.Cmd(c.ctx, c.binary, "push", chartPackage, oci).Run().Stream(os.Stdout)
-		if err != nil {
+		if c.registryType == "nexus" {
+			auth := c.user + ":" + c.password
+			err := run.Cmd(c.ctx, "curl", "-T", chartPackage, registry, "-u", auth, "-s").Run().Stream(os.Stdout)
+			if err != nil {
 
-			return err
+				return err
+			}
+		} else {
+			err := run.Cmd(c.ctx, c.binary, "push", chartPackage, registry).Run().Stream(os.Stdout)
+			if err != nil {
+
+				return err
+			}
 		}
-		err2 := os.Remove(chartPackage)
-		if err2 != nil {
+		fmt.Printf("chart %s pushed\n", chartPackage)
+		errRemove := os.Remove(chartPackage)
+		if errRemove != nil {
 
-			return err2
+			return errRemove
 		}
 	}
 	return nil
