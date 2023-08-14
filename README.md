@@ -24,12 +24,15 @@ Usage:
   scope [flags]
 
 Flags:
-  -b, --binary string     alias for binary helm3 (default "helm")
-  -c, --config string     path to configfile
-  -d, --dryrun            enable dry-run mode
-  -h, --help              help for scope
-  -r, --registry string   destination chart registry
-  -v, --version           version for scope
+  -b, --binary string          alias for binary helm3 (default "helm")
+  -c, --config string          path to configfile
+  -d, --dryrun                 enable dry-run mode
+  -h, --help                   help for scope
+  -p, --password string        password for nexus registry
+  -r, --registry string        destination chart registry
+  -t, --registry-type string   registry nexus or ecr (default: oci) (default "oci")
+  -u, --user string            user for nexus registry
+  -v, --version                version for scope
 
 ```
 
