@@ -1,4 +1,4 @@
-FROM golang:1.21 as builder
+FROM golang:alpine as builder
 
 # Set the Current Working Directory inside the container
 WORKDIR $GOPATH/src/github.com/jplanckeel/scope
@@ -31,4 +31,4 @@ RUN /bin/sh -c cd /tmp/ && \
     tar -zxf helm-v*-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm && \
     rm -rf /tmp/*.tar.gz /tmp/linux-amd64
 
-ENTRYPOINT  [ "/bin/scope" ]
+CMD ["/bin/sh"]
