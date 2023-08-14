@@ -13,7 +13,7 @@ ENV CGO_ENABLED=0
 RUN go build -ldflags="-s -w" -o /go/scope
 
 
-FROM alpine:latest as prod
+FROM golang:alpine as prod
 
 ENV HELM_VERSION=3.5.4
 
