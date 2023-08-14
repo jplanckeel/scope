@@ -31,7 +31,4 @@ RUN /bin/sh -c cd /tmp/ && \
     tar -zxf helm-v*-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin/helm && \
     rm -rf /tmp/*.tar.gz /tmp/linux-amd64
 
-RUN adduser -D scope
-USER scope
-
 ENTRYPOINT  [ "/bin/scope" ]
