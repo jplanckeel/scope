@@ -16,12 +16,14 @@ func Sync(binaryHelm string, configPath string, repoDest string, registryType st
 	}
 
 	for registry, charts := range cfg {
+		index := 2
 		repo := registry
 		if !strings.HasPrefix(repo, "https://") {
 			repo = "https://" + repo
+			index = 0
 		}
 		repoName := strings.Split(registry, "/")
-		err := h.repoAdd(repoName[0], repo)
+		err := h.repoAdd(repoName[index], repo)
 		if err != nil {
 			fmt.Printf("error: can't add repo %v\n", err)
 		}
