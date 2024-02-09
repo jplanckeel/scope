@@ -30,7 +30,7 @@ func Sync(binaryHelm string, configPath string, repoDest string, registryType st
 
 		for chart, versions := range charts.Charts {
 			for _, version := range versions {
-				chartName := repoName[0] + "/" + chart
+				chartName := repoName[index] + "/" + chart
 
 				pullAndPush(registry, chart, chartName, version)
 
