@@ -16,16 +16,16 @@ type ChartSyncConfig struct {
 
 type sourceConfig map[string]ChartSyncConfig
 
-func newConfig(yamlFile string) (sourceConfig, error) {
+func newSourceConfig(sourceFile string) (sourceConfig, error) {
 
 	var cfg sourceConfig
-	source, err := os.ReadFile(filepath.Clean(yamlFile))
+	source, err := os.ReadFile(filepath.Clean(sourceFile))
 	if err != nil {
 		return cfg, err
 	}
 	err = yaml.Unmarshal(source, &cfg)
 	if err != nil {
-		return cfg, fmt.Errorf("failed to unmarshal %q: %w", yamlFile, err)
+		return cfg, fmt.Errorf("failed to unmarshal %q: %w", sourceFile, err)
 	}
 	return cfg, nil
 

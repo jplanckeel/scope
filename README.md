@@ -32,7 +32,7 @@ In the ever-evolving landscape of container orchestration, Helm diagrams have be
 
 ## Roadmap 
 
-- [ ] Add semver usage ex: "<= 1.3"
+- [ ] Add regex usage for version
 - [ ] Add CI example for Gitlab and Github Action
 
 ## requierment 
