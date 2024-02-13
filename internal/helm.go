@@ -19,9 +19,9 @@ type Client struct {
 	dryrun       bool
 }
 
-func NewClient(binaryHelm string, repoDest string, registryType string, user string, password string, dryrun bool) *Client {
+func NewClient(config ScopeConfig) *Client {
 	ctx := context.Background()
-	return &Client{ctx, binaryHelm, repoDest, registryType, user, password, dryrun}
+	return &Client{ctx, config.BinaryHelm, config.Registry, config.RegistryType, config.User, config.Password, config.Dryrun}
 }
 
 func (c Client) repoAdd(repoName string, repo string) error {

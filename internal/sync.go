@@ -8,10 +8,10 @@ import (
 
 var h *Client
 
-func Sync(binaryHelm string, configPath string, repoDest string, registryType string, user string, password string, dryrun bool) {
+func Sync(config ScopeConfig) {
 
-	h = NewClient(binaryHelm, repoDest, registryType, user, password, dryrun)
-	cfg, err := newConfig(configPath)
+	h = NewClient(config)
+	cfg, err := newConfig(config.ConfigFile)
 	if err != nil {
 		log.Error(err)
 	}
