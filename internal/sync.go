@@ -1,8 +1,9 @@
 package internal
 
 import (
-	"fmt"
 	"strings"
+
+	log "github.com/sirupsen/logrus"
 )
 
 var h *Client
@@ -12,7 +13,7 @@ func Sync(binaryHelm string, configPath string, repoDest string, registryType st
 	h = NewClient(binaryHelm, repoDest, registryType, user, password, dryrun)
 	cfg, err := newConfig(configPath)
 	if err != nil {
-		fmt.Printf("error: %s\n", err)
+		log.Error(err)
 	}
 
 	for registry, charts := range cfg {
@@ -25,7 +26,7 @@ func Sync(binaryHelm string, configPath string, repoDest string, registryType st
 		repoName := strings.Split(registry, "/")
 		err := h.repoAdd(repoName[index], repo)
 		if err != nil {
-			fmt.Printf("error: can't add repo %v\n", err)
+			log.Errorf("can't add repo %v\n", err)
 		}
 
 		for chart, versions := range charts.Charts {
@@ -43,12 +44,12 @@ func pullAndPush(registry string, chart string, chartName string, version string
 
 	listSource, err := h.searchChart(chartName, version)
 	if err != nil {
-		fmt.Printf("error: can't search chart in repo %v\n", err)
+		log.Errorf("can't search chart in repo %v\n", err)
 	}
 
 	chartSource, err := chartList(listSource.Bytes())
 	if err != nil {
-		fmt.Printf("error: can't list chart in repo %v\n", err)
+		log.Errorf("can't list chart in repo %v\n", err)
 	}
 
 	for _, c := range chartSource {
@@ -57,11 +58,11 @@ func pullAndPush(registry string, chart string, chartName string, version string
 
 		err := h.pullChart(c.Name, c.Version)
 		if err != nil {
-			fmt.Printf("error: can't pull chart from repo %v\n", err)
+			log.Errorf("can't pull chart from repo %v\n", err)
 		}
 		err = h.pushChart(r, chart, c.Version)
 		if err != nil {
-			fmt.Printf("error: can't push chart to repo %v\n", err)
+			log.Errorf("can't push chart to repo %v\n", err)
 		}
 
 	}
