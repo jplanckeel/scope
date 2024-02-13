@@ -9,7 +9,7 @@ import (
 var config internal.ScopeConfig
 
 var rootCmd = &cobra.Command{
-	Version: "0.0.14",
+	Version: "0.2.0",
 	Use:     "scope",
 	Short:   "a cli to sync helmchart to private registry",
 	Run: func(cmd *cobra.Command, args []string) {

@@ -11,7 +11,7 @@ var h *Client
 func Sync(config ScopeConfig) {
 
 	h = NewClient(config)
-	cfg, err := newConfig(config.ConfigFile)
+	cfg, err := newSourceConfig(config.ConfigFile)
 	if err != nil {
 		log.Error(err)
 	}
