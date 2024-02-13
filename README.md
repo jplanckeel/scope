@@ -90,9 +90,26 @@ prometheus-community.github.io/helm-charts:
 
 ```
 
+## CI
+
+### Gitlab-ci
+
+```bash
+sync-charts:
+  tags:
+    - docker
+  image: jplanckeel/scope
+  stage: sync
+  script: scope -c ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-jplanckeel.com
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+      when: always
+```
 
 ## build 
 
 ```bash
- go build -ldflags "-s -w"
+ go build -ldflags "-s -w" -o bin/scope 
 ```
