@@ -49,11 +49,15 @@ jobs:
       with:
         args: ./...
 
+    - name: Install Govulncheck Security Scanner
+      run: go install golang.org/x/vuln/cmd/govulncheck
+      
     - name: Run Govulncheck Security Scanner
-      run: go get -u golang.org/x/vuln/cmd/govulncheck && \
-           go install golang.org/x/vuln/cmd/govulncheck && \
-           govulncheck ./... 
+      run: govulncheck ./... 
 
+
+
+           
   test:
     name: Go test
     runs-on: ubuntu-latest
