@@ -41,6 +41,7 @@ func Sync(config ScopeConfig) {
 }
 
 func pullAndPush(registry string, chart string, chartName string, version string) {
+	var r string = h.repoDest
 
 	listSource, err := h.searchChart(chartName, version)
 	if err != nil {
@@ -54,7 +55,9 @@ func pullAndPush(registry string, chart string, chartName string, version string
 
 	for _, c := range chartSource {
 
-		r := registryD(registry, h.repoDest, h.registryType)
+		if h.registryType == "oci" {
+			r = "oci://" + h.repoDest + "/helm-mirrors/" + registry
+		}
 
 		err := h.pullChart(c.Name, c.Version)
 		if err != nil {
@@ -66,13 +69,4 @@ func pullAndPush(registry string, chart string, chartName string, version string
 		}
 
 	}
-}
-
-func registryD(r string, repod string, t string) string {
-
-	if t == "oci" {
-		oci := "oci://" + h.repoDest + "/helm-mirrors/" + r
-		return oci
-	}
-	return repod
 }
