@@ -1,12 +1,40 @@
-# scope
+<p align="center" style="margin-top: 120px">
 
-cli to sync Helmchart on private registry with oci compatibility
+  <h3 align="center">Scope</h3>
 
-## build 
+  <p align="center">
+    An Open-Source cli to Sync (Helm)Chart On Private OCI Registry
+    <br />
+  </p>
+</p>
 
-```bash
- go build -ldflags "-s -w"
-```
+
+
+## About Scope 
+ 
+Synchronize Your Helm Charts Seamlessly with OCI-Compatible Registries
+
+In the ever-evolving landscape of container orchestration, Helm diagrams have become a cornerstone for simplifying application deployment and management. To enhance this experience, we present Scope, a simple and effective tool for effortlessly synchronizing Helm diagrams with OCI-compliant registries such as Nexus or ECR (Elastic Container Registry). This allows you to maintain control over the sources you use in a simple YAML
+
+### Key Features:
+
+* Seamless Integration: Scope seamlessly integrates with Helm charts, providing a smooth and efficient synchronization process with OCI-compatible registries.
+
+* OCI Compatibility: Embracing the Open Container Initiative (OCI) standards, ensures that your Helm charts align perfectly with OCI-compatible registries, promoting interoperability and industry standards.
+
+* Multi-Registry Support: Scope doesn't limit you to a single registry. Whether you prefer Nexus or ECR, the tool supports multiple OCI-compatible registries, offering flexibility and choice.
+
+* Automated Sync: Say goodbye to manual interventions. Scope automates the synchronization process, ensuring that your Helm charts are always up-to-date in the designated OCI-compatible registry.
+
+* Version Control: Manage and track versions effortlessly. Scope supports versioning, allowing you to synchronize specific chart versions with precision.
+
+*  Logging: Gain insights into synchronization activities with detailed logging. Scope provides comprehensive logs, making it easy to troubleshoot and monitor the synchronization process.
+
+## Roadmap 
+
+- [ ] Add semver usage ex: "<= 1.3"
+- [ ] Add CI example for Gitlab and Github Action
+
 ## requierment 
 
 - Regsitry with OCI compatibility
@@ -60,4 +88,11 @@ prometheus-community.github.io/helm-charts:
     - 2.0.1
 
 
+```
+
+
+## build 
+
+```bash
+ go build -ldflags "-s -w"
 ```
