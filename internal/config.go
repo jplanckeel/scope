@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"gopkg.in/yaml.v3"
 )
@@ -18,7 +19,7 @@ type sourceConfig map[string]ChartSyncConfig
 func newConfig(yamlFile string) (sourceConfig, error) {
 
 	var cfg sourceConfig
-	source, err := os.ReadFile(yamlFile)
+	source, err := os.ReadFile(filepath.Clean(yamlFile))
 	if err != nil {
 		return cfg, err
 	}
