@@ -90,6 +90,16 @@ prometheus-community.github.io/helm-charts:
 
 ```
 
+## Docker Image
+
+You can find a docker image with Helm and Scope cli here :
+
+https://hub.docker.com/r/jplanckeel/scope
+
+```bash
+docker run jplanckeel/scope scope -h                                                                               
+```                                                                                                                                     
+
 ## CI
 
 ### Gitlab-ci
