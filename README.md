@@ -108,6 +108,34 @@ sync-charts:
       when: always
 ```
 
+## Renovate Configuration
+
+You can update file with renovate, an example to package rules custom :
+
+INFO : We have a limitation with renovate in this example, we can use mutliple version for a same chart.
+
+```json
+"packageRules": [
+      {
+        "customType": "regex",
+        "fileMatch": ["scope_config.yml$"],
+        "matchStrings": [
+          "(?<registryUrl>.*):\\s+charts:\\s+((?<depName>.*):\\s+-\\s(?<currentValue>[\\w+\\.]*))"
+        ],
+        "datasourceTemplate": "helm"
+      }
+    ]
+```
+
+<!> In this example you need to specify protocole to regsitry url.
+
+```yaml
+https://stakater.github.io/stakater-charts:
+  charts:
+    reloader:
+    - 1.0.67
+```
+
 ## build 
 
 ```bash
