@@ -76,6 +76,8 @@ jobs:
         with:
           version: latest
           args: release --clean
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release-check:
     if: github.event.action == 'labeled'
