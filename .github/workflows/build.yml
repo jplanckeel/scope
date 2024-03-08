@@ -70,6 +70,13 @@ jobs:
           push: true
           tags: jplanckeel/scope:${{steps.version_tag.outputs.tag}},jplanckeel/scope:latest
 
+      - name: Run GoReleaser
+        if: "steps.tag.outputs.value != ''"
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          version: latest
+          args: release --clean
+
   release-check:
     if: github.event.action == 'labeled'
     runs-on: ubuntu-latest
