@@ -3,10 +3,25 @@
   <h3 align="center">Scope</h3>
 
   <p align="center">
+  <img src="https://cdn.rawgit.com/jplanckeel/scope/main/images/banner.png" style="width:66%" alt="Scope">
+  </p>
+  <p align="center">
     An Open-Source cli to Sync (Helm)Chart On Private OCI Registry
     <br />
   </p>
 </p>
+<p align="center">
+  <a href="https://github.com/jplanckeel/scope/releases"><img title="Release" src="https://img.shields.io/github/v/release/jplanckeel/scope"/></a>
+  <a href=""><img title="Downloads" src="https://img.shields.io/github/downloads/jplanckeel/scope/total.svg"/></a>
+  <a href=""><img title="Docker pulls" src="https://img.shields.io/docker/pulls/jplanckeel/scope"/></a>
+  <a href=""><img title="Go version" src="https://img.shields.io/github/go-mod/go-version/jplanckeel/scope"/></a>
+  <a href=""><img title="Docker builds" src="https://img.shields.io/docker/automated/jplanckeel/scope"/></a>
+  <a href=""><img title="Code builds" src="https://img.shields.io/github/actions/workflow/status/jplanckeel/scope/build.yml"/></a>
+  <a href=""><img title="apache licence" src="https://img.shields.io/badge/License-Apache-yellow.svg"/></a>
+  <a href="https://github.com/jplanckeel/scope/releases"><img title="Release date" src="https://img.shields.io/github/release-date/jplanckeel/scope"/></a>
+</p>
+
+
 
 
 
