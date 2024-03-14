@@ -1,4 +1,4 @@
-package internal
+package config
 
 import (
 	"log"
@@ -10,7 +10,7 @@ import (
 
 func TestNewConfig(t *testing.T) {
 
-	testCase := sourceConfig{
+	testCase := configSource{
 		"apache.github.io/superset": {
 			Charts: map[string][]string{
 				"superset": {
@@ -34,7 +34,7 @@ func TestNewConfig(t *testing.T) {
 
 	sourceFile := "../test/good.yaml"
 
-	cfg, err := newSourceConfig(sourceFile)
+	cfg, err := NewSource(sourceFile)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -46,7 +46,7 @@ func TestNewConfigError(t *testing.T) {
 
 	sourceFile := "../test/bad.yaml"
 
-	_, err := newSourceConfig(sourceFile)
+	_, err := NewSource(sourceFile)
 	assert.Error(t, err)
 }
 

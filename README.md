@@ -35,6 +35,14 @@ In the ever-evolving landscape of container orchestration, Helm diagrams have be
 - [ ] Add regex usage for version
 - [ ] Add CI example for Gitlab and Github Action
 
+## Regsitry Tested 
+
+| Resgistry         | Tested     | Scope Version |
+|--------------|-----------|------------|
+| AWS ECR | (/)      | v0.0        |
+| Nexus     | (/) | v0.2      |
+| Docker Hub     | (/) | v0.4      |
+
 ## requierment 
 
 - Regsitry with OCI compatibility

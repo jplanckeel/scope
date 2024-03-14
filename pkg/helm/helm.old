@@ -1,4 +1,5 @@
-package internal
+/*
+package helm
 
 import (
 	"bytes"
@@ -7,11 +8,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/sourcegraph/run"
+	"helm.sh/helm/v3/pkg/action"
 )
 
 type Client struct {
 	ctx          context.Context
-	binary       string
 	repoDest     string
 	registryType string
 	user         string
@@ -19,9 +20,16 @@ type Client struct {
 	dryrun       bool
 }
 
-func NewClient(config ScopeConfig) *Client {
+func NewClient(config Config) *Client {
 	ctx := context.Background()
-	return &Client{ctx, config.BinaryHelm, config.Registry, config.RegistryType, config.User, config.Password, config.Dryrun}
+	return &Client{
+		ctx,
+		config.Registry,
+		config.RegistryType,
+		config.User,
+		config.Password,
+		config.Dryrun,
+	}
 }
 
 func (c Client) repoAdd(repoName string, repo string) error {
@@ -36,6 +44,11 @@ func (c Client) repoAdd(repoName string, repo string) error {
 	return nil
 }
 
+func (c Client) findChart() {
+
+}
+
+/*
 func (c Client) searchChart(chart string, version string) (bytes.Buffer, error) {
 	log.WithField("action", "searchChart").Infof("search chart %s version %s\n", chart, version)
 	var streamData bytes.Buffer
@@ -44,9 +57,14 @@ func (c Client) searchChart(chart string, version string) (bytes.Buffer, error) 
 		return bytes.Buffer{}, err
 	}
 	return streamData, nil
-}
+}*/
 
+/*
 func (c Client) pullChart(chartName string, version string) error {
+
+	pull := action.NewPull()
+	pull.Run()
+
 	var streamLog bytes.Buffer
 	log.WithField("action", "pullChart").Infof("pull chart %s:%s\n", chartName, version)
 	if !c.dryrun {
@@ -90,3 +108,4 @@ func (c Client) pushChart(registry string, chartName string, version string) err
 	}
 	return nil
 }
+*/

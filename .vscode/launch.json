@@ -19,6 +19,14 @@
             "mode": "auto",
             "program": "main.go",
             "args": ["scope","-c","example.yaml","-r","https://nexus.mycompany.com","-t","nexus","-d"]
+        },
+        {
+            "name": "Launch newScope",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "main.go",
+            "args": ["-s","example.yaml","-r","registry-1.docker.io","-u", "jplanckeel", "-p", "dmqhGMdS4o7zMs"]
         }
     ]
 }
