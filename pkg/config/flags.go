@@ -7,6 +7,7 @@ type Flags struct {
 	SourceFile            string
 	Registry              string
 	Scheme                string
+	Type                  string
 	Namespace             string
 	Username              string
 	Password              string

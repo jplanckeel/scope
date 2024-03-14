@@ -1,12 +1,15 @@
 package helm
 
 import (
+	"bytes"
+	"context"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/jplanckeel/scope/pkg/config"
 	log "github.com/sirupsen/logrus"
+	"github.com/sourcegraph/run"
 	"helm.sh/helm/v3/pkg/action"
 	"helm.sh/helm/v3/pkg/getter"
 	"helm.sh/helm/v3/pkg/repo"
@@ -91,32 +94,33 @@ func push(f config.Flags, chart string, version string) error {
 	if err != nil {
 		return err
 	}
-	log.WithField("action", "pushed").Infof("chart %s %s pushed", chart, version)
+	log.WithField("action", "push").Infof("chart %s %s pushed", chart, version)
 	return nil
 }
 
+// function to push old regsitry does not support oci format
 func pushHttp(f config.Flags, chart string, version string) error {
 
-	actionConfig := new(action.Configuration)
-
-	registryClient, err := newDefaultRegistryClient(false)
+	var streamLog bytes.Buffer
+	err := run.Cmd(
+		context.Background(),
+		"curl",
+		"-T",
+		fmt.Sprintf("%s-%s.tgz", chart, version),
+		f.Registry,
+		"-u",
+		fmt.Sprintf("%s:%s", f.Username, f.Password),
+		"-s",
+	).Run().Stream(&streamLog)
 	if err != nil {
+
 		return err
 	}
-	actionConfig.RegistryClient = registryClient
-
-	client := action.NewPushWithOpts(action.WithPushConfig(actionConfig),
-		action.WithTLSClientConfig(f.CertFile, f.KeyFile, f.CaFile),
-		action.WithInsecureSkipTLSVerify(f.InsecureSkipTLSverify),
-		action.WithPlainHTTP(false))
-	client.Settings = settings
-	_, err = client.Run(fmt.Sprintf("%s-%s.tgz", chart, version), fmt.Sprintf("oci://%s/", f.Registry))
-	if err != nil {
-		return err
-	}
+	log.WithField("action", "pushHttp").Infof("chart %s %s pushed", chart, version)
 	return nil
 }
 
+// function to login to regsitry
 func login(f config.Flags) error {
 
 	actionConfig := new(action.Configuration)
@@ -151,7 +155,7 @@ func extractVersion(url string) (version string, err error) {
 		version = url[lastSlashIndex+1 : tgzIndex]
 		return
 	} else {
-		err = fmt.Errorf("Invalid string")
+		err = fmt.Errorf("invalid string")
 		return
 	}
 }
