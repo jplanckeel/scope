@@ -83,10 +83,6 @@ func push(f config.Flags, chart string, version string) error {
 		action.WithPlainHTTP(false))
 	client.Settings = settings
 
-	// define usernane to namespace
-	if f.Namespace == "" {
-		f.Namespace = f.Username
-	}
 	_, err = client.Run(
 		fmt.Sprintf("%s-%s.tgz", chart, version),
 		fmt.Sprintf("oci://%s/%s", f.Registry, f.Namespace),

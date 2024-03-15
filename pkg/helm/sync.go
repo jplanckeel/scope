@@ -19,7 +19,16 @@ func Sync(flags config.Flags) {
 
 	//login to resitry
 	if flags.Type != "nexus" {
-		login(flags)
+		err = login(flags)
+		if err != nil {
+			log.WithField("action", "login").Error(err)
+		}
+
+		// define usernane to namespace
+		if flags.Namespace == "" {
+			log.WithField("action", "sync").Warnf("setting namespace to %s", flags.Username)
+			flags.Namespace = flags.Username
+		}
 	}
 
 	for repo, charts := range source {
