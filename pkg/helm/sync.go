@@ -31,6 +31,7 @@ func Sync(flags config.Flags) {
 		}
 	}
 
+	//define https scheme if repo do not have scheme
 	for repo, charts := range source {
 		if !strings.HasPrefix(repo, "https://") {
 			repo = "https://" + repo
@@ -61,10 +62,8 @@ func Sync(flags config.Flags) {
 						if err != nil {
 							log.WithField("action", "pushHttp").Error(err)
 						}
-
 					}
 				}
-
 			}
 		}
 	}

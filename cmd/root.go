@@ -30,7 +30,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&flags.SourceFile, "source-file", "s", "", "path to source file")
 	rootCmd.PersistentFlags().StringVarP(&flags.Registry, "registry", "r", "", "destination chart registry")
 	rootCmd.PersistentFlags().StringVarP(&flags.Namespace, "namespace", "n", "", "namespace destination chart registry")
-	rootCmd.PersistentFlags().StringVar(&flags.Scheme, "scheme", "oci", "scheme for registry")
+	//rootCmd.PersistentFlags().StringVar(&flags.Scheme, "scheme", "oci", "scheme for registry")
 	rootCmd.PersistentFlags().StringVarP(&flags.Type, "type", "t", "oci", "type for registry (nexus or oci)")
 	rootCmd.PersistentFlags().StringVarP(&flags.Username, "user", "u", "", "chart destination repository user")
 	rootCmd.PersistentFlags().StringVarP(&flags.Password, "password", "p", "", "chart destination repository password")
