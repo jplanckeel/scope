@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/moby/term"
+	log "github.com/sirupsen/logrus"
 	"helm.sh/helm/v3/pkg/registry"
 )
 
@@ -109,8 +110,15 @@ func readLine(prompt string, silent bool) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		term.DisableEcho(fd, state)
-		defer term.RestoreTerminal(fd, state)
+		err = term.DisableEcho(fd, state)
+		if err != nil {
+			return "", err
+		}
+		defer func() {
+			if err := term.RestoreTerminal(fd, state); err != nil {
+				log.Error(err)
+			}
+		}()
 	}
 
 	reader := bufio.NewReader(os.Stdin)

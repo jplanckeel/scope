@@ -132,11 +132,14 @@ func login(f config.Flags) error {
 		return err
 	}
 
-	action.NewRegistryLogin(actionConfig).Run(os.Stdout, f.Registry, username, password,
+	err = action.NewRegistryLogin(actionConfig).Run(os.Stdout, f.Registry, username, password,
 		action.WithCertFile(f.CertFile),
 		action.WithKeyFile(f.KeyFile),
 		action.WithCAFile(f.CaFile),
 		action.WithInsecure(f.InsecureSkipTLSverify))
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
