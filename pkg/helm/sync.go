@@ -3,9 +3,9 @@ package helm
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/jplanckeel/scope/pkg/config"
+	"github.com/jplanckeel/scope/pkg/utils"
 	log "github.com/sirupsen/logrus"
 	"helm.sh/helm/v3/pkg/cli"
 )
@@ -20,7 +20,11 @@ func Sync(flags config.Flags) {
 	}
 
 	// Login to resitry
-	if flags.Type != "nexus" {
+	if flags.Type == "nexus" {
+		// Define https scheme if repo do not have scheme
+		log.WithField("action", "sync").Warnf("setting scheme https:// to %s", flags.Registry)
+		flags.Registry = utils.EnsureHTTPScheme(flags.Registry)
+	} else {
 		err = login(flags)
 		if err != nil {
 			log.WithField("action", "login").Error(err)
@@ -33,11 +37,10 @@ func Sync(flags config.Flags) {
 		}
 	}
 
-	// Define https scheme if repo do not have scheme
 	for repo, charts := range source {
-		if !strings.HasPrefix(repo, "https://") {
-			repo = "https://" + repo
-		}
+
+		// Define https scheme if repo do not have scheme
+		repo = utils.EnsureHTTPScheme(repo)
 
 		for charts, versions := range charts.Charts {
 			for _, version := range versions {
@@ -56,15 +59,15 @@ func Sync(flags config.Flags) {
 					}
 
 					// Push chart on destination repository
-					if flags.Type != "nexus" {
-						err = push(flags, charts, version)
-						if err != nil {
-							log.WithField("action", "push").Error(err)
-						}
-					} else {
+					if flags.Type == "nexus" {
 						err = pushHttp(flags, charts, version)
 						if err != nil {
 							log.WithField("action", "pushHttp").Error(err)
+						}
+					} else {
+						err = push(flags, charts, version)
+						if err != nil {
+							log.WithField("action", "push").Error(err)
 						}
 
 					}
@@ -74,7 +77,6 @@ func Sync(flags config.Flags) {
 					if err != nil {
 						log.WithField("action", "removeFile").Error(err)
 					}
-
 				}
 			}
 		}
