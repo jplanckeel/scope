@@ -15,6 +15,7 @@ import (
 	"helm.sh/helm/v3/pkg/repo"
 )
 
+// Function to find chart in repository
 func findChart(repository string, chart string, version string) (url string) {
 
 	url, err := repo.FindChartInRepoURL(
@@ -32,6 +33,7 @@ func findChart(repository string, chart string, version string) (url string) {
 	return
 }
 
+// Fucntion to pull chart on repository
 func pull(repository string, chart string, version string) error {
 
 	actionConfig := new(action.Configuration)
@@ -67,6 +69,7 @@ func pull(repository string, chart string, version string) error {
 	return nil
 }
 
+// Function to push chart on regsitry
 func push(f config.Flags, chart string, version string) error {
 
 	actionConfig := new(action.Configuration)
@@ -94,11 +97,11 @@ func push(f config.Flags, chart string, version string) error {
 	return nil
 }
 
-// function to push old regsitry does not support oci format
-func pushHttp(f config.Flags, chart string, version string) error {
+// Function to push on old regsitry does not support oci format
+func pushHttp(f config.Flags, chart string, version string) (err error) {
 
 	var streamLog bytes.Buffer
-	err := run.Cmd(
+	err = run.Cmd(
 		context.Background(),
 		"curl",
 		"-T",
@@ -106,17 +109,15 @@ func pushHttp(f config.Flags, chart string, version string) error {
 		f.Registry,
 		"-u",
 		fmt.Sprintf("%s:%s", f.Username, f.Password),
-		"-s",
 	).Run().Stream(&streamLog)
 	if err != nil {
-
-		return err
+		return
 	}
 	log.WithField("action", "pushHttp").Infof("chart %s %s pushed", chart, version)
-	return nil
+	return
 }
 
-// function to login to regsitry
+// Function to login to regsitry
 func login(f config.Flags) error {
 
 	actionConfig := new(action.Configuration)
