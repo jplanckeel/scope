@@ -32,7 +32,7 @@ func TestNewConfig(t *testing.T) {
 		},
 	}
 
-	sourceFile := "../test/good.yaml"
+	sourceFile := "../../test/good.yml"
 
 	cfg, err := NewSource(sourceFile)
 	if err != nil {
