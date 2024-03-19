@@ -70,7 +70,7 @@ func pull(repository string, chart string, version string) error {
 }
 
 // Function to push chart on regsitry
-func push(f config.Flags, chart string, version string) error {
+func push(f config.Flags, repoSource string, chart string, version string) error {
 
 	actionConfig := new(action.Configuration)
 
@@ -86,9 +86,17 @@ func push(f config.Flags, chart string, version string) error {
 		action.WithPlainHTTP(false))
 	client.Settings = settings
 
+	var remote string
+	if !f.AppendSource {
+		remote = fmt.Sprintf("oci://%s/%s", f.Registry, f.Namespace)
+	} else {
+		repo, _ := strings.CutPrefix(repoSource, "https://")
+		remote = fmt.Sprintf("oci://%s/%s/%s", f.Registry, f.Namespace, repo)
+	}
+
 	_, err = client.Run(
 		fmt.Sprintf("%s-%s.tgz", chart, version),
-		fmt.Sprintf("oci://%s/%s", f.Registry, f.Namespace),
+		remote,
 	)
 	if err != nil {
 		return err

@@ -38,4 +38,6 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&flags.KeyFile, "key-file", "", "identify HTTPS client using this SSL key file")
 	rootCmd.PersistentFlags().StringVar(&flags.CaFile, "ca-file", "", "verify certificates of HTTPS-enabled servers using this CA bundle")
 	rootCmd.PersistentFlags().BoolVar(&flags.InsecureSkipTLSverify, "insecure-skip-tls-verify", false, "skip tls certificate checks")
+	rootCmd.PersistentFlags().BoolVar(&flags.AppendSource, "append-source", false, "append repository to chart name")
+	rootCmd.PersistentFlags().StringVar(&flags.AppendSuffix, "append-suffix", "", "append suffix to chart version")
 }

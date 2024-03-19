@@ -65,7 +65,7 @@ func Sync(flags config.Flags) {
 							log.WithField("action", "pushHttp").Error(err)
 						}
 					} else {
-						err = push(flags, charts, version)
+						err = push(flags, repo, charts, version)
 						if err != nil {
 							log.WithField("action", "push").Error(err)
 						}

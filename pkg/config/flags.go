@@ -4,6 +4,7 @@ type Flags struct {
 	Dryrun                bool
 	InsecureSkipTLSverify bool
 	PasswordFromStdinOpt  bool
+	AppendSource          bool
 	SourceFile            string
 	Registry              string
 	Scheme                string
@@ -14,4 +15,5 @@ type Flags struct {
 	CaFile                string
 	CertFile              string
 	KeyFile               string
+	AppendSuffix          string
 }
