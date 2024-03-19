@@ -48,41 +48,54 @@ In the ever-evolving landscape of container orchestration, Helm diagrams have be
 ## Roadmap 
 
 - [ ] Add regex usage for version
-- [ ] Add CI example for Gitlab and Github Action
+- [x] Add CI example for Gitlab
+- [ ] Add CI example Github Action
+
+## Regsitry Tested 
+
+| Resgistry         | Tested     | Scope Version |
+|--------------|-----------|------------|
+| AWS ECR | (/)      | v0.0        |
+| Nexus     | (/) | v0.2      |
+| Docker Hub     | (/) | v0.4      |
+| Scaleway Registry     | (/) | v0.4      |
 
 ## requierment 
 
 - Regsitry with OCI compatibility
-- Repository created on regsitry with named format :  helm-mirrors/{{ registry }}/{{chart}}
+- Repository created on regsitry with named format :  {{ registry }}/{{ namespace }}
 
-example : helm-mirrors/aws.github.io/eks-charts/aws-load-balancer-controller
+example : rg.fr-par.scw.cloud/helm-mirrors
 
 ## cli 
 
 ```bash
 > scope -h
-a cli to sync helmchart to private registry
+Sync Chart On Private Registry
 
 Usage:
   scope [flags]
 
 Flags:
-  -b, --binary string          alias for binary helm3 (default "helm")
-  -c, --config string          path to configfile
-  -d, --dryrun                 enable dry-run mode
-  -h, --help                   help for scope
-  -p, --password string        password for nexus registry
-  -r, --registry string        destination chart registry
-  -t, --registry-type string   registry nexus or ecr (default: oci) (default "oci")
-  -u, --user string            user for nexus registry
-  -v, --version                version for scope
-
+      --append-source              append repository to chart name
+      --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
+      --cert-file string           identify HTTPS client using this SSL certificate file
+  -h, --help                       help for scope
+      --insecure-skip-tls-verify   skip tls certificate checks
+      --key-file string            identify HTTPS client using this SSL key file
+  -n, --namespace string           namespace destination chart registry
+  -p, --password string            chart destination repository password
+      --password-stdin             read password or identity token from stdin
+  -r, --registry string            destination chart registry
+  -s, --source-file string         path to source file
+  -t, --type string                type for registry (nexus or oci) (default "oci")
+  -u, --user string                chart destination repository user
 ```
 
 example : 
 
 ```bash
-scope -c config.yaml -r 000000000000.dkr.ecr.eu-west-3.amazonaws.com
+scope -s config.yaml -r 000000000000.dkr.ecr.eu-west-3.amazonaws.com
 ```
 
 ## Configuration example 
@@ -101,8 +114,6 @@ prometheus-community.github.io/helm-charts:
     prometheus-node-exporter:
     - 2.0.0
     - 2.0.1
-
-
 ```
 
 ## Docker Image
@@ -125,7 +136,7 @@ sync-charts:
     - docker
   image: jplanckeel/scope
   stage: sync
-  script: scope -c ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-jplanckeel.com
+  script: scope -s ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-jplanckeel.com
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual

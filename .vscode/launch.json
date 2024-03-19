@@ -19,6 +19,6 @@
             "mode": "auto",
             "program": "main.go",
             "args": ["scope","-c","example.yaml","-r","https://nexus.mycompany.com","-t","nexus","-d"]
-        }
+        },
     ]
 }

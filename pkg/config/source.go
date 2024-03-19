@@ -1,4 +1,4 @@
-package internal
+package config
 
 import (
 	"fmt"
@@ -8,17 +8,16 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type ChartSyncConfig struct {
+type ChartsSource struct {
 	Charts           map[string][]string
 	ChartsByTagRegex map[string]string `yaml:"charts-by-tag-regex"` // Charts map charts name to regular expression with the charts' tags
 
 }
 
-type sourceConfig map[string]ChartSyncConfig
+type configSource map[string]ChartsSource
 
-func newSourceConfig(sourceFile string) (sourceConfig, error) {
-
-	var cfg sourceConfig
+func NewSource(sourceFile string) (configSource, error) {
+	var cfg configSource
 	source, err := os.ReadFile(filepath.Clean(sourceFile))
 	if err != nil {
 		return cfg, err
