@@ -95,7 +95,7 @@ Flags:
 example : 
 
 ```bash
-scope -c config.yaml -r 000000000000.dkr.ecr.eu-west-3.amazonaws.com
+scope -s config.yaml -r 000000000000.dkr.ecr.eu-west-3.amazonaws.com
 ```
 
 ## Configuration example 
