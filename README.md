@@ -63,9 +63,9 @@ In the ever-evolving landscape of container orchestration, Helm diagrams have be
 ## requierment 
 
 - Regsitry with OCI compatibility
-- Repository created on regsitry with named format :  helm-mirrors/{{ registry }}/{{chart}}
+- Repository created on regsitry with named format :  {{ registry }}/{{ namespace }}
 
-example : helm-mirrors/aws.github.io/eks-charts/aws-load-balancer-controller
+example : rg.fr-par.scw.cloud/helm-mirrors
 
 ## cli 
 
@@ -77,6 +77,7 @@ Usage:
   scope [flags]
 
 Flags:
+      --append-source              append repository to chart name
       --ca-file string             verify certificates of HTTPS-enabled servers using this CA bundle
       --cert-file string           identify HTTPS client using this SSL certificate file
   -h, --help                       help for scope
