@@ -136,7 +136,7 @@ sync-charts:
     - docker
   image: jplanckeel/scope
   stage: sync
-  script: scope -c ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-jplanckeel.com
+  script: scope -s ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-jplanckeel.com
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual
