@@ -1,0 +1,33 @@
+---
+    # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+    
+    name: Release Please
+    
+    on:  # yamllint disable-line rule:truthy
+      push:
+        branches:
+          - main
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    
+    jobs:
+      release-please:
+        runs-on: ubuntu-latest
+        outputs:
+          paths_released: ${{ steps.release-please.outputs.paths_released }}
+          releases_created: ${{ steps.release-please.outputs.releases_created }}
+        steps:
+          - name: Get token
+            id: get_token
+            uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859 # v3
+            with:
+              owner: ${{ github.repository_owner }}
+              app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
+              private-key: ${{ secrets.RELEASE_PLEASE_APP_PEM }}
+          - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4
+            id: release-please
+            with:
+              token: '${{ steps.get_token.outputs.token }}'
+              release-type: simple
