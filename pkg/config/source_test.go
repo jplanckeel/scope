@@ -36,7 +36,7 @@ prometheus-community.github.io/helm-charts:
 		},
 		"prometheus-community.github.io/helm-charts": {
 			Charts: map[string][]string{
-				"prometheus":                {"~11.1.0"},
+				"prometheus":               {"~11.1.0"},
 				"prometheus-node-exporter": {"2.0.0", "2.0.1"},
 			},
 		},
