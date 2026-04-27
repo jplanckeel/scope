@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jplanckeel/scope/pkg/config"
-	"github.com/jplanckeel/scope/pkg/utils"
+	"github.com/BananaOps/scope/pkg/config"
+	"github.com/BananaOps/scope/pkg/utils"
 	log "github.com/sirupsen/logrus"
 	"helm.sh/helm/v3/pkg/cli"
 )

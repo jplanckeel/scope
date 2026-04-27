@@ -1,79 +1,83 @@
 package config
 
 import (
-	"log"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v3"
 )
 
-func TestNewConfig(t *testing.T) {
+func TestNewSource(t *testing.T) {
+	goodConfig := `apache.github.io/superset:
+  charts:
+    superset:
+      - 0.1.0
+      - 0.1.1
+prometheus-community.github.io/helm-charts:
+  charts:
+    prometheus:
+      - ~11.1.0
+    prometheus-node-exporter:
+      - 2.0.0
+      - 2.0.1
+`
 
-	testCase := configSource{
+	tmpDir := t.TempDir()
+	sourceFile := filepath.Join(tmpDir, "good.yaml")
+	assert.NoError(t, os.WriteFile(sourceFile, []byte(goodConfig), 0o644))
+
+	expected := configSource{
 		"apache.github.io/superset": {
 			Charts: map[string][]string{
-				"superset": {
-					"0.1.0",
-					"0.1.1",
-				},
+				"superset": {"0.1.0", "0.1.1"},
 			},
 		},
 		"prometheus-community.github.io/helm-charts": {
 			Charts: map[string][]string{
-				"prometheus": {
-					"~11.1.0",
-				},
-				"prometheus-node-exporter": {
-					"2.0.0",
-					"2.0.1",
-				},
+				"prometheus":               {"~11.1.0"},
+				"prometheus-node-exporter": {"2.0.0", "2.0.1"},
 			},
 		},
 	}
 
-	sourceFile := "../../test/good.yaml"
-
 	cfg, err := NewSource(sourceFile)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	assert.Equal(t, cfg, testCase)
+	assert.NoError(t, err)
+	assert.Equal(t, expected, cfg)
 }
 
-func TestNewConfigError(t *testing.T) {
-
-	sourceFile := "../test/bad.yaml"
-
-	_, err := NewSource(sourceFile)
+func TestNewSourceFileNotFound(t *testing.T) {
+	_, err := NewSource("does-not-exist.yaml")
 	assert.Error(t, err)
 }
 
-func TestChartList(t *testing.T) {
+func TestNewSourceInvalidYAML(t *testing.T) {
+	tmpDir := t.TempDir()
+	sourceFile := filepath.Join(tmpDir, "bad.yaml")
+	assert.NoError(t, os.WriteFile(sourceFile, []byte("not: [ valid: yaml"), 0o644))
 
+	_, err := NewSource(sourceFile)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "failed to unmarshal")
+}
+
+func TestChartList(t *testing.T) {
 	testCase := []chartSearch{
-		{
-			App_version: "1.0.0",
-			Description: "chart description",
-			Name:        "prometheus",
-			Version:     "1.0.0",
-		}, {
-			App_version: "1.2.0",
-			Description: "chart description",
-			Name:        "prometheus",
-			Version:     "1.0.0",
-		},
+		{App_version: "1.0.0", Description: "chart description", Name: "prometheus", Version: "1.0.0"},
+		{App_version: "1.2.0", Description: "chart description", Name: "prometheus", Version: "1.0.0"},
 	}
 
 	y, err := yaml.Marshal(testCase)
-	if err != nil {
-		log.Fatal(err)
-	}
-	list, err := chartList(y)
-	if err != nil {
-		log.Fatal(err)
-	}
+	assert.NoError(t, err)
 
-	assert.Equal(t, list, testCase)
+	list, err := chartList(y)
+	assert.NoError(t, err)
+	assert.Equal(t, testCase, list)
+}
+
+func TestChartListInvalidYAML(t *testing.T) {
+	_, err := chartList([]byte("not: [ valid: yaml"))
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "failed to unmarshal")
 }

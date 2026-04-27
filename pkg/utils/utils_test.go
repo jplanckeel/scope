@@ -1,26 +1,26 @@
 package utils
 
 import (
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestEnsureHTTPScheme(t *testing.T) {
 	testCases := []struct {
+		name     string
 		input    string
 		expected string
 	}{
-		{"example.com", "https://example.com"},
-		{"http://example.com", "http://example.com"},
-		{"https://example.com", "https://example.com"},
+		{"no scheme", "example.com", "https://example.com"},
+		{"http scheme", "http://example.com", "http://example.com"},
+		{"https scheme", "https://example.com", "https://example.com"},
+		{"empty string", "", "https://"},
 	}
 
 	for _, tc := range testCases {
-		t.Run(fmt.Sprintf("Testing URL: %s", tc.input), func(t *testing.T) {
-			result := EnsureHTTPScheme(tc.input)
-			if result != tc.expected {
-				t.Errorf("Expected: %s, Got: %s", tc.expected, result)
-			}
+		t.Run(tc.name, func(t *testing.T) {
+			assert.Equal(t, tc.expected, EnsureHTTPScheme(tc.input))
 		})
 	}
 }

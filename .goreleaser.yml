@@ -7,7 +7,7 @@ builds:
   - env:
       - CGO_ENABLED=0
       - GO111MODULE=on
-      - GOPRIVATE=github.com/jplanckeel
+      - GOPRIVATE=github.com/BananaOps
     goos:
       - linux
     goarch:
@@ -19,7 +19,7 @@ builds:
   - env:
       - CGO_ENABLED=0
       - GO111MODULE=on
-      - GOPRIVATE=github.com/jplanckeel
+      - GOPRIVATE=github.com/BananaOps
     goos:
       - darwin
     goarch:

@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/jplanckeel/scope/pkg/config"
+	"github.com/BananaOps/scope/pkg/config"
 	log "github.com/sirupsen/logrus"
 	"github.com/sourcegraph/run"
 	"helm.sh/helm/v3/pkg/action"
