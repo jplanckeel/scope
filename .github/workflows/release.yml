@@ -9,11 +9,11 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # actions/checkout@v6
 
       - name: Get tag name
         id: tag
-        uses: haya14busa/action-cond@d0c3785880c08a358711ee8047f593cbcf1cdcfd
+        uses: haya14busa/action-cond@d0c3785880c08a358711ee8047f593cbcf1cdcfd # haya14busa/action-cond@v1
         with:
           cond: "${{ startsWith(github.ref, 'refs/tags/') }}"
           if_true: ${{ github.ref }}
@@ -31,22 +31,22 @@ jobs:
           sed -i '/^appVersion:/c\appVersion: "${{steps.version_tag.outputs.tag_chart}}"' ./helm/tracker/Chart.yaml
 
       - if: steps.tag.outputs.value != ''
-        uses: stefanzweifel/git-auto-commit-action@v7
+        uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "ci: bump charts to ${{steps.version_tag.outputs.tag}}"
           branch: main
   
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # docker/setup-buildx-action@v3
 
       - name: Login to Docker Hub
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # docker/login-action@v3
         with:
           username: ${{secrets.DOCKER_USERNAME}}
           password: ${{ secrets.DOCKER_AUTH_TOKEN }}
 
       - name: Build and Push Docker Image
-        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25
+        uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # docker/build-push-action@v5
         with:
           context: .
           push: true
