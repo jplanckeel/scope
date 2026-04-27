@@ -1,4 +1,4 @@
-module github.com/jplanckeel/scope
+module github.com/BananaOps/scope
 
 go 1.21
 

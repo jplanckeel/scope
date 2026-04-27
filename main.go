@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jplanckeel/scope/cmd"
+	"github.com/BananaOps/scope/cmd"
 )
 
 func main() {

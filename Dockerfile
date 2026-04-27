@@ -1,7 +1,7 @@
 FROM golang:alpine as builder
 
 # Set the Current Working Directory inside the container
-WORKDIR $GOPATH/src/github.com/jplanckeel/scope
+WORKDIR $GOPATH/src/github.com/BananaOps/scope
 
 # Copy everything from the current directory to the PWD (Present Working Directory) inside the container
 COPY . .

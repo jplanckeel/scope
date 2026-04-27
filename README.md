@@ -3,7 +3,7 @@
   <h3 align="center">Scope</h3>
 
   <p align="center">
-  <img src="https://cdn.rawgit.com/jplanckeel/scope/main/images/banner.png" style="width:66%" alt="Scope">
+  <img src="https://cdn.rawgit.com/BananaOps/scope/main/images/banner.png" style="width:66%" alt="Scope">
   </p>
   <p align="center">
     An Open-Source cli to Sync (Helm)Chart On Private OCI Registry
@@ -11,14 +11,14 @@
   </p>
 </p>
 <p align="center">
-  <a href="https://github.com/jplanckeel/scope/releases"><img title="Release" src="https://img.shields.io/github/v/release/jplanckeel/scope"/></a>
-  <a href=""><img title="Downloads" src="https://img.shields.io/github/downloads/jplanckeel/scope/total.svg"/></a>
-  <a href=""><img title="Docker pulls" src="https://img.shields.io/docker/pulls/jplanckeel/scope"/></a>
-  <a href=""><img title="Go version" src="https://img.shields.io/github/go-mod/go-version/jplanckeel/scope"/></a>
-  <a href=""><img title="Docker builds" src="https://img.shields.io/docker/automated/jplanckeel/scope"/></a>
-  <a href=""><img title="Code builds" src="https://img.shields.io/github/actions/workflow/status/jplanckeel/scope/build.yml"/></a>
+  <a href="https://github.com/BananaOps/scope/releases"><img title="Release" src="https://img.shields.io/github/v/release/BananaOps/scope"/></a>
+  <a href=""><img title="Downloads" src="https://img.shields.io/github/downloads/BananaOps/scope/total.svg"/></a>
+  <a href=""><img title="Docker pulls" src="https://img.shields.io/docker/pulls/BananaOps/scope"/></a>
+  <a href=""><img title="Go version" src="https://img.shields.io/github/go-mod/go-version/BananaOps/scope"/></a>
+  <a href=""><img title="Docker builds" src="https://img.shields.io/docker/automated/BananaOps/scope"/></a>
+  <a href=""><img title="Code builds" src="https://img.shields.io/github/actions/workflow/status/BananaOps/scope/build.yml"/></a>
   <a href=""><img title="apache licence" src="https://img.shields.io/badge/License-Apache-yellow.svg"/></a>
-  <a href="https://github.com/jplanckeel/scope/releases"><img title="Release date" src="https://img.shields.io/github/release-date/jplanckeel/scope"/></a>
+  <a href="https://github.com/BananaOps/scope/releases"><img title="Release date" src="https://img.shields.io/github/release-date/BananaOps/scope"/></a>
 </p>
 
 
@@ -120,10 +120,10 @@ prometheus-community.github.io/helm-charts:
 
 You can find a docker image with Helm and Scope cli here :
 
-https://hub.docker.com/r/jplanckeel/scope
+https://hub.docker.com/r/BananaOps/scope
 
 ```bash
-docker run jplanckeel/scope scope -h                                                                               
+docker run BananaOps/scope scope -h                                                                               
 ```                                                                                                                                     
 
 ## CI
@@ -134,9 +134,9 @@ docker run jplanckeel/scope scope -h
 sync-charts:
   tags:
     - docker
-  image: jplanckeel/scope
+  image: BananaOps/scope
   stage: sync
-  script: scope -s ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-jplanckeel.com
+  script: scope -s ./scope_config.yml -t nexus -u $REGISTRY_USER -p $REGISTRY_USER_TOKEN -r https://docker.nexus-BananaOps.com
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: manual

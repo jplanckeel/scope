@@ -3,8 +3,8 @@ package cmd
 import (
 	"os"
 
-	"github.com/jplanckeel/scope/pkg/config"
-	"github.com/jplanckeel/scope/pkg/helm"
+	"github.com/BananaOps/scope/pkg/config"
+	"github.com/BananaOps/scope/pkg/helm"
 	"github.com/spf13/cobra"
 )
 
