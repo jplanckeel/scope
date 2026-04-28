@@ -23,7 +23,7 @@ jobs:
         uses: haya14busa/action-bumpr@a2a70ab97602f0d0f2d23ff3c9f8d7144a99f6e7 # haya14busa/action-bumpr@v1
 
       - name: Update corresponding major and minor tag
-        uses: haya14busa/action-update-semver@621d0de22303d6decc3ee9d1858a70622a8db614 # haya14busa/action-update-semver@v1
+        uses: haya14busa/action-update-semver@7d2c558640ea49e798d46539536190aff8c18715 # haya14busa/action-update-semver@v1
         if: "!steps.bumpr.outputs.skip"
         with:
           tag: ${{ steps.bumpr.outputs.next_version }}
